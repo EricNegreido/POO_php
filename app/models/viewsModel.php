@@ -7,6 +7,7 @@
 
       if(in_array($view, $listaBlanca)){
         if(is_file("./app/views/content/".$view."-view.php")){
+          $contenido = "./app/views/content/".$view."-view.php";
         }else{
           $contenido ="404";
         }

@@ -16,6 +16,18 @@
   <?php require_once "./app/views/inc/head.php";?>
 </head>
 <body>
-  <?php require_once "./app/views/inc/script.php";?>
+  <?php 
+    use app\controllers\viewsController;
+
+    $viewsController = new viewsController();
+    $view = $viewsController->getViewsController($url[0]);
+
+    if($view == "login" || $view=="404"){
+      require_once"./app/views/content/".$view."-view.php";
+    }else{
+      require_once $view;
+    }
+    require_once "./app/views/inc/script.php";
+  ?>
 </body>
 </html>
