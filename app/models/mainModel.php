@@ -36,4 +36,49 @@
       return $cadena;
 
     }
+
+    protected function VerificarDatos($filtro, $cadena){
+      if(preg_match("/^".$filtro."$/", $cadena)){
+        return false;
+      }else{
+        return true;
+      }
+
+    }
+
+    protected function guardarDatos($tabla, $datos){
+      $query="INSERT INTO $tabla (";
+
+      $Count = 0;
+
+      foreach($datos as $clave){
+        if($Count > 0){ 
+          $query.= ","; 
+        }
+        $query.=$clave["campo_nombre"];
+        $Count++;
+  
+      }
+      $query.=") VALUES(";
+
+      $Count = 0;
+
+      foreach($datos as $clave){
+        if($Count > 0){ 
+          $query.= ","; 
+        }
+        $query.=$clave["campo_marcador"];
+        $Count++;
+  
+      }
+      $query.=")";
+      $sql=$this->conectar()->prepare($query);
+      foreach($datos as $clave){
+        $sql->bindParam($clave["campo_marcador"], $clave["campo_valor"]);
+
+
+    }
+    $sql->execute();
+    return $sql;
+    
   }
