@@ -135,4 +135,57 @@
       return $sql;
 
     }
+
+    protected function paginadorTablas($pagina, $numeroPaginas, $url, $botones){
+      $tabla ='
+      <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+      ';
+      if($pagina<=1){
+        $tabla.='
+        <li class="page-item disabled">
+        <a class="page-link">Previous</a>
+        </li>';
+      }else{
+        $tabla.='
+        <li class="page-item">
+        <a class="page-link" href="'.$url.($pagina-1).'/">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="'.$url.'1/">1</a></li>
+        <li class="page-item"> ... </li>
+        ';
+      }
+      $count = 0;
+      for($i = $pagina; $i<= $numeroPaginas; $i++){
+        if($count >= $botones){
+          break;
+        }
+
+        if($pagina == $i){
+          $tabla.= '<li class="page-item active" aria-current="page">
+            <span class="page-link">'.$i.'</span>
+          </li>';
+
+        }else{
+          $tabla.= '<li class="page-item"><a class="page-link" href="'.$url.$i.'/">'.$i.'</a></li>';
+        }
+        $count++;
+      }
+      if($pagina==$numeroPaginas){
+        $tabla.='<li class="page-item disabled">
+      <a class="page-link" href="#">Next</a>
+      </li>';
+      }else{
+      $tabla.='
+      <li class="page-item"> ... </li>
+      <li class="page-item"><a class="page-link" href="'.$url.$numeroPaginas.'/">'.$numeroPaginas.'</a></li>
+      <li class="page-item">
+      <a class="page-link"  href="'.$url.($numeroPaginas+1).'/">Next</a>
+      </li>';
+      }
+      $tabla.='</ul>
+      </nav>';
+
+      return $tabla;
+    }
 }
